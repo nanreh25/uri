@@ -1,109 +1,4 @@
-<!-- INCIO -->
 
-<script>
-
-
-    // Numero de copos, recomendados entre 30 y 40
-    var nieve_cantidad=50
-    
-    // Colores de los copos se mostraran de forma aleatoria
-    var nieve_colorr=new Array("#FFF","#F8F8F8","#666")
-     
-    // Tipo de letra de los copos
-    var nieve_tipo=new Array("Arial Black","Arial Narrow","Times","Comic Sans MS")
-     
-    // Valor o letra de los copos
-    var nieve_letra=" "
-     
-    // velocidad de caida
-    var nieve_velocidad=5
-     
-    // tamaño mas grande de los copos
-    var nieve_cantidadsize=30
-     
-    // tamaño mas pequeño de los copos
-    var nieve_chico=10
-     
-    // 1 toda la pagina - 2 zona izquierda - 3 centro de pagina - 4 zona derecha
-    var nieve_zona=1
-     
-    var nieve=new Array();
-    var marginbottom;
-    var marginright;
-    var timer;
-    var i_nieve=0;
-    var x_mv=new Array();
-    var crds=new Array();
-    var lftrght=new Array();
-    var browserinfos=navigator.userAgent;
-    var ie5=document.all&&document.getElementById&&!browserinfos.match(/Opera/);
-    var ns6=document.getElementById&&!document.all;
-    var opera=browserinfos.match(/Opera/);  
-    var browserok=ie5||ns6||opera;
-     
-    function aleatorio(range) {    
-        rand=Math.floor(range*Math.random())
-        return rand
-    }
-     
-    function initnieve() {
-        if (ie5 || opera) {
-            marginbottom = document.closest(body).clientHeight
-            marginright = document.body.clientWidth
-        }
-        else if (ns6) {
-            marginbottom = window.innerHeight
-            marginright = window.innerWidth
-        }
-        var nievesizerange=nieve_cantidadsize-nieve_chico
-        for (i=0;i<=nieve_cantidad;i++) {
-            crds[i] = 0;                      
-            lftrght[i] = Math.random()*15;        
-            x_mv[i] = 0.03 + Math.random()/10;
-            nieve[i]=document.getElementById("s"+i)
-            nieve[i].style.fontFamily=nieve_tipo[aleatorio(nieve_tipo.length)]
-            nieve[i].size=aleatorio(nievesizerange)+nieve_chico
-            nieve[i].style.fontSize=nieve[i].size
-            nieve[i].style.color=nieve_colorr[aleatorio(nieve_colorr.length)]
-            nieve[i].sink=nieve_velocidad*nieve[i].size/5
-            if (nieve_zona==1) {nieve[i].posx=aleatorio(marginright-nieve[i].size)}
-            if (nieve_zona==2) {nieve[i].posx=aleatorio(marginright/2-nieve[i].size)}
-            if (nieve_zona==3) {nieve[i].posx=aleatorio(marginright/2-nieve[i].size)+marginright/4}
-            if (nieve_zona==4) {nieve[i].posx=aleatorio(marginright/2-nieve[i].size)+marginright/2}
-            nieve[i].posy=aleatorio(2*marginbottom-marginbottom-2*nieve[i].size)
-            nieve[i].style.left=nieve[i].posx
-            nieve[i].style.top=nieve[i].posy
-        }
-        movenieve()
-    }
-     
-    function movenieve() {
-        for (i=0;i<=nieve_cantidad;i++) {
-            crds[i] += x_mv[i];
-            nieve[i].posy+=nieve[i].sink
-            nieve[i].style.left=nieve[i].posx+lftrght[i]*Math.sin(crds[i]);
-            nieve[i].style.top=nieve[i].posy
-           
-            if (nieve[i].posy>=marginbottom-2*nieve[i].size || parseInt(nieve[i].style.left)>(marginright-3*lftrght[i])){
-                if (nieve_zona==1) {nieve[i].posx=aleatorio(marginright-nieve[i].size)}
-                if (nieve_zona==2) {nieve[i].posx=aleatorio(marginright/2-nieve[i].size)}
-                if (nieve_zona==3) {nieve[i].posx=aleatorio(marginright/2-nieve[i].size)+marginright/4}
-                if (nieve_zona==4) {nieve[i].posx=aleatorio(marginright/2-nieve[i].size)+marginright/2}
-                nieve[i].posy=0
-            }
-        }
-        var timer=setTimeout("movenieve()",100)
-    }
-     
-    for (i=0;i<=nieve_cantidad;i++) {
-        document.write("<span id='s"+i+"' style='position:absolute;top:-"+nieve_cantidadsize+"'>"+nieve_letra+"</span>")
-    }
-    if (browserok) {
-        window.onload=initnieve
-    }
-</script>
-
-<!-- FIN -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -181,7 +76,7 @@
        border-radius: 0px 0px 20px 20px;
        opacity: 0.9;
       /* height: auto;*/
-       height: 100px;
+       height: 120px;
        border-bottom: solid 1px rgb(250, 250, 250);
    }
 
@@ -266,17 +161,17 @@
                 </a>
                 <a href="mailto:uribatachi@gmail.com" style="margin-left: 2;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                        <path fill-rule="evenodd" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"></path>
                     </svg>
                 </a>
                 <a href="https://www.instagram.com/uribatac/;" style="margin-left: 2;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"></path>
                     </svg>
                 </a>
                 <a href="https://www.facebook.com/uribatac-103602601384094" style="margin-left: 2;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                        <path fill-rule="evenodd" d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
                     </svg>
                 </a>
             </div>
@@ -286,34 +181,43 @@
                 </marquee>
         </div>
     </div>
-
-   <div style="text-align:center">   
-        <iframe style="pointer-events: none;" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=small&timezone=America%2FCaracas" width="100%" height="100" frameborder="0" seamless></iframe>
-        <p>HORA VENEZUELA</p>
-   </div>
    <div class="cargando">
        Cargando, por favor espere...
    </div>
 
    <div class="contenido">
        <hr>
+       <h3 style="text-align: center; color: aliceblue;">ANUNCIOS</h3>
        <hr>
-       <h3 style="text-align: center; color: aliceblue;">LOS ANUNCIOS A CONTINUACION SON DE DOMINIO PUBLICO, ESTA APP NO TIENE PARENTESCO CON ALGUNO</h3>
        <br>
        
        <div name="bannerSlider">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active" name="escuelaFutbol">
-                <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622603442/escuela_futbol_upvmwg.jpg" class="d-block w-100" height="300px" alt="...">
+                <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622603442/escuela_futbol_upvmwg.jpg" class="d-block w-100" height="200px" alt="...">
               </div>
-
-            </div>
+              <div class="carousel-item" name="febau">
+                <img src="https://res.cloudinary.com/uribatachi/image/upload/v1668640759/FEBAU_djs7ww.jpg" class="d-block w-100" height="200px" alt="...">
+              </div>
+              <div class="carousel-item" name="espacioPublicitario">
+                <img src="https://res.cloudinary.com/uribatachi/image/upload/v1668474512/espacioPublicitario_ekbcaq.jpg" class="d-block w-100" height="200px" alt="...">
+              </div>
  
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
           </div>
     </div>
 
     <hr>
+    <h3 style="text-align: center; color: aliceblue;"><strong><em>EMISORAS</em></strong> </h3>
     <hr>
 
         <div id="radioUribantina" name="radioUribantina" class="div_secciones">
@@ -325,7 +229,7 @@
                  </a>
                  <a href="https://www.facebook.com/Uribantina-1047-fm-601313463274215" target="_parent" style="margin-left: 3px;">
                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                         <path fill-rule="evenodd" d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                         <path fill-rule="evenodd" d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
                      </svg>
                  </a>
             </p>
@@ -336,7 +240,7 @@
                 </div>
                 <div class="col-10">
                     <audio id="myAudio2" controls class="audioS" loop="loop" style="width: 100%;"> 
-                        <source src="http://109.169.14.34:17712/;?type=http&nocache=15" type="audio/mpeg" id="prueba2">
+                        <source src="https://node-20.zeno.fm/uktr51e5ss8uv?rj-ttl=5&rj-tok=AAABfLLCVsMAPB0XYikE82iJJw" type="audio/mpeg" id="prueba2">
                     </audio>
                 </div>
             </div>
@@ -956,8 +860,9 @@
           </div>
     </div>
 
-
     <hr>
+    <hr>
+
        <div id="radioDinamica" name="radioDinamica" class="div_secciones">
        <p class="tituloRadio">
            <i class="fas fa-list-ul"  style="color: azure;"  onclick="mostrarProgramacion(this)"></i>
@@ -967,7 +872,7 @@
         </a>
         <a href="https://www.facebook.com/dinamica.ramirez.58" target="_parent" style="margin-left: 3px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                <path fill-rule="evenodd" d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
             </svg>
         </a>
        </p>
@@ -975,11 +880,11 @@
        <div class="container">
            <div class="row">
                <div class="col-2">
-                   <img class="mask_radios" onclick="mostrarProgramacion(this)" width="45" height="auto" src="https://imgproxy.zenomedia.com/insecure/fit/380/380/ce/0/plain/https://proxy.zeno.fm/content/stations/agxzfnplbm8tc3RhdHNyMgsSCkF1dGhDbGllbnQYgICQu7rHjwoMCxIOU3RhdGlvblByb2ZpbGUYgICQ65vJiwgMogEEemVubw/image/%3Fresize=380x380&v=1" alt="">
+                   <img class="mask_radios" onclick="mostrarProgramacion(this)" width="45" height="auto" src="https://res.cloudinary.com/uribatachi/image/upload/v1668470604/logoDinamica_ccfugo.jpg" alt="">
                </div>
                <div class="col-10">
-                <audio id="myAudio1" controls class="audioS" loop="loop" style="width: 100%;" preload="auto"> 
-                    <source src="http://node-28.zeno.fm/pra7vxg3u7zuv?rj-ttl=5&rj-tok=AAABecSmRcgAJqXOAA6u9N3lhA" type="audio/mpeg" id="prueba1">
+                <audio id="myAudio1" controls class="audioS" loop="loop" style="width: 100%;" > <!-- preload="auto" -->  
+                    <source src="https://stream-40.zeno.fm/9f1x7tc2exhvv?zs=3cIuCPpKTx-wzR8XZNPyjQ" type="audio/mpeg" id="prueba1">
                 </audio>
                </div>
            </div>
@@ -1510,41 +1415,24 @@
            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                <div class="carousel-inner">
                  <div class="carousel-item active">
-                   <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622216721/146211952_235366204874399_6102963329376444583_n.jpg_j0uve1.jpg" class="d-block w-100" height="300px" alt="...">
+                   <img src="https://res.cloudinary.com/uribatachi/image/upload/v1668470604/logoDinamica_ccfugo.jpg" class="d-block w-100" height="300px" alt="...">
                  </div>
                  <div class="carousel-item name="rompiendoMañana">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583398/149167958_239335104477509_2599444664245877469_n.jpg_ehg61a.jpg" class="d-block w-100" height="300px" alt="...">
+                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1668470604/dinamica_direccionGeneralMister_zticyt.jpg" class="d-block w-100" height="300px" alt="...">
                   </div>
                   <div class="carousel-item name="SuperTrendy">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583446/149391148_239568664454153_3497841237295284191_n.jpg_ybc4tl.jpg" class="d-block w-100" height="300px" alt="...">
+                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1668470604/dinamicaSuperTrendy_ahg2ip.jpg" class="d-block w-100" height="300px" alt="...">
                   </div>
                   <div class="carousel-item name="capitalConexion">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583388/149426876_239334887810864_520516698371438153_n.jpg_eozn2k.jpg" class="d-block w-100" height="300px" alt="...">
+                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1668470604/dinamicaAlRitmoDeLaGaita_e6ljng.jpg" class="d-block w-100" height="300px" alt="...">
                   </div>
                   <div class="carousel-item name="cruzadaDeportiva">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583415/149479959_239335371144149_6147083251642556667_n.jpg_cio2p3.jpg" class="d-block w-100" height="300px" alt="...">
+                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1668470604/dinamicaAlternativaJuvenil_mdbvi4.jpg" class="d-block w-100" height="300px" alt="...">
                   </div>
                   <div class="carousel-item name="fiestaConOrquestas">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583425/148658939_239335651144121_7421815488183636744_n.jpg_ozetik.jpg" class="d-block w-100" height="300px" alt="...">
+                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1668470604/dinamicaPublicidad_gayauh.jpg" class="d-block w-100" height="300px" alt="...">
                   </div>
-                  <div class="carousel-item name="misaSancristobal">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583480/149419929_239569134454106_6203694766525923646_n.jpg_ima3dw.jpg" class="d-block w-100" height="300px" alt="...">
-                  </div>
-                  <div class="carousel-item name="senntimientoRanchero">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583493/149306477_239569331120753_4577204044986582937_n.jpg_bbhodv.jpg" class="d-block w-100" height="300px" alt="...">
-                  </div>
-                  <div class="carousel-item name="explosionVallenata">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583531/148923553_239569467787406_545913513007274934_n.jpg_zcgb80.jpg" class="d-block w-100" height="300px" alt="...">
-                  </div>
-                  <div class="carousel-item name="conexionRomantica">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583566/148745078_239569794454040_3006314093682359594_n.jpg_xtqr6c.jpg" class="d-block w-100" height="300px" alt="...">
-                  </div>
-                  <div class="carousel-item name="infDinamica">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583547/148782574_239569657787387_5860518106825407295_n.jpg_ayq3ak.jpg" class="d-block w-100" height="300px" alt="...">
-                  </div>
-                  <div class="carousel-item name="fondoViejoCalleReal">
-                    <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622583457/149108636_239568891120797_1031263640490750250_n.jpg_jb4jz2.jpg" class="d-block w-100" height="300px" alt="...">
-                  </div>
+                  
                </div>
                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -1559,467 +1447,7 @@
 
        <hr>
 
-       
-       <div id="radioCura" name="radioCura" class="div_secciones">
-        <p class="tituloRadio">
-            <i class="fas fa-list-ul"  style="color: azure;"  onclick="mostrarProgramacion(this)"></i>
-            RADIO CURA 99.1
-            <a href="https://www.facebook.com/parroquia.pregonero.1" target="_parent" style="margin-left: 3px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
-                </svg>
-            </a>
-            <a href="https://www.instagram.com/parroquiapregonero/" style="margin-left: 2;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
-                </svg>
-            </a>
-        </p>
-        <div class="container">
-            <div class="row">
-                <div class="col-2">
-                    <img class="mask_radios" width="45" onclick="mostrarProgramacion(this)" height="auto" src="https://cura.radio12345.com/users.img/3204341/75/85/x2276406546574.thumb.jpg.pagespeed.ic.3_p7Y4a4pz.webp" alt="">
-                </div>
-                <div class="col-10">
-                    <audio id="myAudio3" controls class="audioS" loop="loop" style="width: 100%;">
-                        <source src="https://freeus1.listen2myradio.com/live.mp3?typeportmount=s1_13213_stream_490445004" type="audio/mpeg" id="prueba3">
-                    </audio>
-                </div>
-            </div>
-        </div>
-        <span></span>
-        <div id="accordion" class="mt-500 desplazar" style="display: none;">
-            <div class="card">
-              <div class="card-header" id="heading15">
-                <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapse15" aria-expanded="true" aria-controls="collapse15">
-                    LUNES
-                  </button>
-                </h5>
-                <div id="collapse15" class="collapse" aria-labelledby="heading15" data-parent="#accordion">
-                    <div class="card-body">
-                      <table class="table table-striped">
-                          <tr>
-                              <th>HORA</th>
-                              <th>PROGRAMA</th>
-                              <th>LOCUTOR</th>
-                          </tr>
-                          <tr>
-                            <td>06:00hs</td>
-                            <td>Rezo del Santo Rosario</td>
-                            <td>Con los Niños</td>
-                        </tr>
-                        <tr>
-                            <td>07:00hs -  08:00hs</td>
-                            <td>Conexion con Radio Rumbos</td>
-                            <td>Esperando Inf.</td>
-                        </tr>
-                        <tr>
-                            <td>08:00hs -  09:00hs</td>
-                            <td>Conexion con Radio la Buenisima 98.5 F.M</td>
-                            <td>Esperando Inf.</td>
-                        </tr>
-                        <tr>
-                            <td>12:00hs -  13:00hs</td>
-                            <td>Conexion con Radio Rumbos</td>
-                            <td>Esperando Inf.</td>
-                        </tr>
-                        <tr>
-                            <td>14:00hs</td>
-                            <td>Coronilla de la Sangre Preciosa</td>
-                            <td>Esperando Inf.</td>
-                        </tr>
-                        <tr>
-                            <td>15:00hs</td>
-                            <td>Rosario de la Divina Misericordia</td>
-                            <td>Esperando Inf.</td>
-                        </tr>
-                        <tr>
-                            <td>17:00hs</td>
-                            <td>Eucaristia</td>
-                            <td>Esperando Inf.</td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-            
-                <div class="card">
-                    <div class="card-header" id="heading16">
-                      <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse16" aria-expanded="true" aria-controls="collapse16">
-                          MARTES
-                        </button>
-                      </h5>
-                    </div>
-                    <div id="collapse16" class="collapse" aria-labelledby="heading16" data-parent="#accordion">
-                      <div class="card-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>HORA</th>
-                                <th>PROGRAMA</th>
-                                <th>LOCUTOR</th>
-                            </tr>
-                            <tr>
-                                <td>06:00hs</td>
-                                <td>Rezo del Santo Rosario</td>
-                                <td>Con los Niños</td>
-                            </tr>
-                            <tr>
-                                <td>07:00hs -  08:00hs</td>
-                                <td>Conexion con Radio Rumbos</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>08:00hs -  09:00hs</td>
-                                <td>Conexion con Radio la Buenisima 98.5 F.M</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>12:00hs -  13:00hs</td>
-                                <td>Conexion con Radio Rumbos</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>14:00hs</td>
-                                <td>Coronilla de la Sangre Preciosa</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>15:00hs</td>
-                                <td>Rosario de la Divina Misericordia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>17:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-            
-                  <div class="card">
-                    <div class="card-header" id="heading17">
-                      <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse17" aria-expanded="true" aria-controls="collapse17">
-                          MIERCOLES
-                        </button>
-                      </h5>
-                    </div>
-                    <div id="collapse17" class="collapse" aria-labelledby="heading17" data-parent="#accordion">
-                      <div class="card-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>HORA</th>
-                                <th>PROGRAMA</th>
-                                <th>LOCUTOR</th>
-                            </tr>
-                            <tr>
-                                <td>06:00hs</td>
-                                <td>Rezo del Santo Rosario</td>
-                                <td>Con los Niños</td>
-                            </tr>
-                            <tr>
-                                <td>07:00hs -  08:00hs</td>
-                                <td>Conexion con Radio Rumbos</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>08:00hs -  09:00hs</td>
-                                <td>Conexion con Radio la Buenisima 98.5 F.M</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>12:00hs -  13:00hs</td>
-                                <td>Conexion con Radio Rumbos</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>14:00hs</td>
-                                <td>Coronilla de la Sangre Preciosa</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>15:00hs</td>
-                                <td>Rosario de la Divina Misericordia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>17:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="card">
-                    <div class="card-header" id="heading21">
-                      <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse21" aria-expanded="true" aria-controls="collapse21">
-                          JUEVES
-                        </button>
-                      </h5>
-                    </div>
-                    <div id="collapse21" class="collapse" aria-labelledby="heading21" data-parent="#accordion">
-                      <div class="card-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>HORA</th>
-                                <th>PROGRAMA</th>
-                                <th>LOCUTOR</th>
-                            </tr>
-                            <tr>
-                                <td>06:00hs</td>
-                                <td>Rezo del Santo Rosario</td>
-                                <td>Con los Niños</td>
-                            </tr>
-                            <tr>
-                                <td>07:00hs -  08:00hs</td>
-                                <td>Conexion con Radio Rumbos</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>08:00hs -  09:00hs</td>
-                                <td>Conexion con Radio la Buenisima 98.5 F.M</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>12:00hs -  13:00hs</td>
-                                <td>Conexion con Radio Rumbos</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>14:00hs</td>
-                                <td>Coronilla de la Sangre Preciosa</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>15:00hs</td>
-                                <td>Rosario de la Divina Misericordia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>17:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="card">
-                    <div class="card-header" id="heading18">
-                      <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse18" aria-expanded="true" aria-controls="collapse18">
-                          VIERNES
-                        </button>
-                      </h5>
-                    </div>
-                    <div id="collapse18" class="collapse" aria-labelledby="heading18" data-parent="#accordion">
-                      <div class="card-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>HORA</th>
-                                <th>PROGRAMA</th>
-                                <th>LOCUTOR</th>
-                            </tr>
-                            <tr>
-                                <td>06:00hs</td>
-                                <td>Rezo del Santo Rosario</td>
-                                <td>Con los Niños</td>
-                            </tr>
-                            <tr>
-                                <td>07:00hs -  08:00hs</td>
-                                <td>Conexion con Radio Rumbos</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>08:00hs -  09:00hs</td>
-                                <td>Conexion con Radio la Buenisima 98.5 F.M</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>12:00hs -  13:00hs</td>
-                                <td>Conexion con Radio Rumbos</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>14:00hs</td>
-                                <td>Coronilla de la Sangre Preciosa</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>15:00hs</td>
-                                <td>Rosario de la Divina Misericordia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>17:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="card">
-                    <div class="card-header" id="heading19">
-                      <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse19" aria-expanded="true" aria-controls="collapse19">
-                          SABADO
-                        </button>
-                      </h5>
-                    </div>
-                    <div id="collapse19" class="collapse" aria-labelledby="heading19" data-parent="#accordion">
-                      <div class="card-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>HORA</th>
-                                <th>PROGRAMA</th>
-                                <th>LOCUTOR</th>
-                            </tr>
-                            <tr>
-                                <td>06:00hs</td>
-                                <td>Rezo del Santo Rosario</td>
-                                <td>Con los Niños</td>
-                            </tr>
-                            <tr>
-                                <td>14:00hs</td>
-                                <td>Coronilla de la Sangre Preciosa</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>15:00hs</td>
-                                <td>Rosario de la Divina Misericordia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>17:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="card">
-                    <div class="card-header" id="heading20">
-                      <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse20" aria-expanded="true" aria-controls="collapse20">
-                          DOMINGO
-                        </button>
-                      </h5>
-                    </div>
-                    <div id="collapse20" class="collapse" aria-labelledby="heading20" data-parent="#accordion">
-                      <div class="card-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>HORA</th>
-                                <th>PROGRAMA</th>
-                                <th>LOCUTOR</th>
-                            </tr>
-                            <tr>
-                                <td>06:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>08:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>10:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>12:00hs</td>
-                                <td>Eucaristia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>14:00hs</td>
-                                <td>Coronilla de la Sangre Preciosa</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                            <tr>
-                                <td>15:00hs</td>
-                                <td>Rosario de la Divina Misericordia</td>
-                                <td>Esperando Inf.</td>
-                            </tr>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-    
-            </div>
-         </div>
-    </div>
-
     <br>
-
-    <div name="bannerSlider">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="https://res.cloudinary.com/uribatachi/image/upload/v1622216751/147251378_236647868079566_7964329488911576188_n.jpg_b59lxh.jpg" class="d-block w-100" height="200px" alt="...">
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-    </div>
-
-       <hr>
-
-           <div id="mundoChacaro" name="mundoChacaro" class="div_secciones">
-               <p class="tituloRadio">
-                   <i class="fas fa-list-ul"  style="color: azure;"  onclick="mostrarProgramacion(this)"></i>
-                   RADIO MUNDO CHACARO - ONLINE
-               </p>
-               <div class="container">
-                   <div class="row">
-                       <div class="col-2">
-                           <img class="mask_radios" width="45" onclick="mostrarProgramacion(this)" height="auto" src="https://api.raddios.com/api/radios/16658/image/miniaturamovil?2020-07-09%2016:50:25" alt="">
-                       </div>
-                       <div class="col-10">
-                           <audio id="myAudio4" controls class="audioS" loop="loop" style="width: 100%;">
-                               <source src="http://node-08.zeno.fm/xzc4strbxzzuv?rj-ttl=5&rj-tok=AAABdR40EIwA0LgFAxDnDEHm9Q" type="audio/mpeg" id="prueba3">
-                           </audio>
-                       </div>
-                   </div>
-               </div>
-               <span></span>
-               <div id="accordion4" class="mt-500 desplazar" style="display: none;">
-               <table class="table table-striped">
-                   <div class="card">
-                       <div class="card-header" id="heading1">
-                         <h5 class="mb-0">
-                           <button class="btn btn-link" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                             A LA ESPERA DE INF.
-                           </button>
-                         </h5>
-                       </div>
-                   </div>
-               </table>
-               </div>
-           </div>
-
-           <hr>
 
    </div>
    <!-- Modal -->
@@ -2029,7 +1457,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Informacion</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">×</span>
           </button>
         </div>
         <div class="modal-body">
