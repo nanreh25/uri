@@ -1,0 +1,345 @@
+/////////////este es el archivo credits_response.dart
+// To parse this JSON data, do
+//
+//     final creditsResponse = creditsResponseFromMap(jsonString);
+
+import 'dart:convert';
+
+class CreditsResponse {
+    CreditsResponse({
+        required this.id,
+        required this.cast,
+        required this.crew,
+    });
+
+    int id;
+    List<Cast> cast;
+    List<Cast> crew;
+
+    factory CreditsResponse.fromJson(String str) => CreditsResponse.fromMap(json.decode(str));
+
+
+    factory CreditsResponse.fromMap(Map<String, dynamic> json) => CreditsResponse(
+        id: json["id"],
+        cast: List<Cast>.from(json["cast"].map((x) => Cast.fromMap(x))),
+        crew: List<Cast>.from(json["crew"].map((x) => Cast.fromMap(x))),
+    );
+
+}
+class Cast {
+  
+    Cast({
+        required this.adult,
+        required this.gender,
+        required this.id,
+        required this.knownForDepartment,
+        required this.name,
+        required this.originalName,
+        required this.popularity,
+        this.profilePath,
+        this.castId,
+        this.character,
+        required this.creditId,
+        this.order,
+        this.department,
+        this.job,
+    });
+
+    bool adult;
+    int gender;
+    int id;
+    String knownForDepartment;
+    String name;
+    String originalName;
+    double popularity;
+    String? profilePath;
+    int? castId;
+    String? character;
+    String creditId;
+    int? order;
+    String? department;
+    String? job;
+
+    get fullProfilePath {
+      if ( this.profilePath != null )
+        return 'https://image.tmdb.org/t/p/w500${ this.profilePath }';
+
+      return 'https://i.stack.imgur.com/GNhxO.png';
+    }
+
+    factory Cast.fromJson(String str) => Cast.fromMap(json.decode(str));
+
+    factory Cast.fromMap(Map<String, dynamic> json) => Cast(
+        adult: json["adult"],
+        gender: json["gender"],
+        id: json["id"],
+        knownForDepartment: json["known_for_department"],
+        name: json["name"],
+        originalName: json["original_name"],
+        popularity: json["popularity"].toDouble(),
+        profilePath: json["profile_path"] == null ? null : json["profile_path"],
+        castId: json["cast_id"] == null ? null : json["cast_id"],
+        character: json["character"] == null ? null : json["character"],
+        creditId: json["credit_id"],
+        order: json["order"] == null ? null : json["order"],
+        department: json["department"] == null ? null : json["department"],
+        job: json["job"] == null ? null : json["job"],
+    );
+  
+}
+
+
+/////////////////// este es el archivo casting_card.dart
+import 'package:flutter/material.dart';
+import 'package:pelicula/providers/movies_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:pelicula/models/models.dart';
+import 'package:pelicula/widgets/widgets.dart';
+
+class CastingCards extends StatelessWidget {
+  final int movieId;
+
+  const CastingCards(this.movieId);
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
+
+    return  FutureBuilder(
+      future: moviesProvider.getMovieCast(movieId),
+      builder: (_, AsyncSnapshot<List<Cast>> snapshot) {
+
+       return Container(
+      margin: const EdgeInsets.only(bottom: 30),
+      width: double.infinity,
+      height: 160,
+      
+      child: ListView.builder(
+        itemCount: 10,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: ( _, int index) => _CastCard(),
+      ),
+    );
+      }
+      );
+
+  }
+}
+
+class _CastCard extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      width: 110,
+      height: 100,
+     
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: const FadeInImage(
+              placeholder: AssetImage('assets/no-image.jpg'),
+              image:  NetworkImage('https://es.israel21c.org/wp-content/uploads/2017/06/34245159284_8638b452bf_h.jpg'),
+              width: 100,
+              height: 130,
+              fit: BoxFit.cover,
+              ),
+          ),
+
+          const SizedBox(height: 5),
+
+          const Text(
+            'actor.name',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            )
+        ],
+      ),
+    );
+  
+
+  }
+  
+
+}
+
+///////////////////////////// este es el archivo movie_provider.dart
+
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:pelicula/models/models.dart';
+
+class MoviesProvider extends ChangeNotifier {
+
+  String _apiKey = '07a3c2e204eafd8f12c82de8e907767a';
+  String _baseUrl = 'api.themoviedb.org';
+  String _language = 'es-ES';
+
+  List<Movie> onDisplayMovies = [];
+  List<Movie> popularMovies = [];
+
+  Map<int, List<Cast>> movieCast = {};
+
+
+  int _popularPage = 0;
+ 
+  MoviesProvider(){
+    
+    getOnDisplayMovies();
+    getPopularMovies();
+
+
+  }
+
+  Future<String> _getJsonData( String endpoint, [int page = 1]) async {
+    var url = Uri.https(_baseUrl, endpoint,{
+      'api_key' : _apiKey,
+      'language': _language,
+      'page'    : '$page',
+
+    });
+    final response = await http.post(url, body: {'name': 'doodle', 'color': 'blue'});
+    return response.body;
+  }
+
+getOnDisplayMovies() async{
+    
+    final jsonData = await _getJsonData('3/movie/now_playing');
+    final nowPlayingResponse = NowPlayingResponse.fromJson(jsonData);
+
+    onDisplayMovies = nowPlayingResponse.results;
+
+    notifyListeners();
+    
+  }
+
+
+   getPopularMovies() async {
+
+    _popularPage++;
+    
+    final jsonData = await _getJsonData('3/movie/popular', _popularPage);
+    final popularResponse = PopularResponse.fromJson(jsonData);
+
+    popularMovies = [...popularMovies, ...popularResponse.results];
+
+    notifyListeners();
+
+    notifyListeners();
+
+  }
+
+  Future<List<Cast>> getMovieCast(int movieId) async {
+      final jsonData = await _getJsonData('3/movie/$movieId/credits');
+      final creditsResponse = CreditsResponse.fromJson(jsonData);
+
+      movieCast[movieId] = creditsResponse.cast;
+
+      return creditsResponse.cast;
+  
+  }
+  
+
+}
+
+ ///////////////////////////// este es el archivo details_screen.dart
+ // To parse this JSON data, do
+//
+//     final creditsResponse = creditsResponseFromMap(jsonString);
+
+import 'dart:convert';
+
+class CreditsResponse {
+    CreditsResponse({
+        required this.id,
+        required this.cast,
+        required this.crew,
+    });
+
+    int id;
+    List<Cast> cast;
+    List<Cast> crew;
+
+    factory CreditsResponse.fromJson(String str) => CreditsResponse.fromMap(json.decode(str));
+
+    factory CreditsResponse.fromMap(Map<String, dynamic> json) => CreditsResponse(
+        id: json["id"],
+        Exception has occurred.
+_TypeError (type 'Null' is not a subtype of type 'int')
+
+        cast: List<Cast>.from(json["cast"].map((x) => Cast.fromMap(x))),
+        crew: List<Cast>.from(json["crew"].map((x) => Cast.fromMap(x))),
+    );
+
+}
+class Cast {
+  
+    Cast({
+        required this.adult,
+        required this.gender,
+        required this.id,
+        required this.knownForDepartment,
+        required this.name,
+        required this.originalName,
+        required this.popularity,
+        this.profilePath,
+        this.castId,
+        this.character,
+        required this.creditId,
+        this.order,
+        this.department,
+        this.job,
+    });
+
+    bool adult;
+    int gender;
+    int id;
+    String knownForDepartment;
+    String name;
+    String originalName;
+    double popularity;
+    String? profilePath;
+    int? castId;
+    String? character;
+    String creditId;
+    int? order;
+    String? department;
+    String? job;
+
+    get fullProfilePath {
+      if ( this.profilePath != null )
+        return 'https://image.tmdb.org/t/p/w500${ this.profilePath }';
+
+      return 'https://i.stack.imgur.com/GNhxO.png';
+    }
+
+    factory Cast.fromJson(String str) => Cast.fromMap(json.decode(str));
+
+    factory Cast.fromMap(Map<String, dynamic> json) => Cast(
+        adult: json["adult"],
+        gender: json["gender"],
+        id: json["id"],
+        knownForDepartment: json["known_for_department"],
+        name: json["name"],
+        originalName: json["original_name"],
+        popularity: json["popularity"].toDouble(),
+        profilePath: json["profile_path"] == null ? null : json["profile_path"],
+        castId: json["cast_id"] == null ? null : json["cast_id"],
+        character: json["character"] == null ? null : json["character"],
+        creditId: json["credit_id"],
+        order: json["order"] == null ? null : json["order"],
+        department: json["department"] == null ? null : json["department"],
+        job: json["job"] == null ? null : json["job"],
+    );
+  
+}
+
+
+
